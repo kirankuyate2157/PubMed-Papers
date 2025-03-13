@@ -13,8 +13,9 @@ def test_fetch_pubmed_data(mock_get):
     }
 
     result = fetch_pubmed_papers("cancer")
-    assert "12345" in result  # ✅ Expecting dictionary with paper ID keys
-    assert result["12345"]["title"] == "Test Article"
+    print(result)
+    assert "12345" in result[0]["uid"]  # ✅ Expecting dictionary with paper ID keys
+    assert result[0]["title"] == "Test Article"
 
 
 @patch("pubmed_fetcher.fetcher.requests.get")
@@ -22,4 +23,4 @@ def test_fetch_pubmed_data_fail(mock_get):
     """Test failed API call."""
     mock_get.return_value.status_code = 500
     result = fetch_pubmed_papers("invalid_query")
-    assert result == {}  # ✅ Expect an empty dictionary, not None
+    assert result == []  # ✅ Expect an empty dictionary, not None
